@@ -70,7 +70,9 @@ def register():
 def read_user():
     data_user = open("data-user.txt", "r")
     user = data_user.read()
+    print("-" * 20)
     print(user)
+    print("-" * 20)
     print(list_user_menu())
 
 def create_user():
@@ -196,21 +198,30 @@ def search_user():
         if not user_found:
             print(f"No user found with the name '{search_name}'")
             
-            #belum beresss
 def filter_user_by_role():
-    search_role =  input("Search role (superadmin/admin/user): ").strip()
-    with open("data-user.txt", "r") as data_role:
-        roles = data_role.read().split("\n\n")
-        role_found = False
-        
-        for role in roles:
-            if role.strip():
-                role_data = role.splitlines()
-                role = role_data[2].split(": ")[1].strip()
+     selected_role = input("choose role for shorting (admin/user/superadmin): ").strip().lower()
+     
+     if selected_role not in ["admin", "user", "superadmin"]:
+        print("Role that you choose is not valid, please choose 'admin', 'user', 'superadmin'.")
+        return
+     with open("data-user.txt", "r") as data_user:
+        users = data_user.read().strip().split("\n\n")
+        selected_role_users = []
+        for user in users:
+          if user.strip(): 
+            user_data = user.splitlines()
+            role = user_data[2].split(": ")[1].strip() 
+            
+            if role == selected_role:
+                selected_role_users.append(user)  
                 
-                if role.lower() == search_role.lower():
-                    print("Role")
-                    
+        if selected_role_users:
+            print(f"\nUsers with role '{selected_role}':")
+        for user in selected_role_users:
+            print(user)
+            print("-" * 20)
+        else:
+          print(f"No user with role '{selected_role}'.")
 
 def delete_user():
     name = input("name: ")
@@ -239,7 +250,9 @@ def delete_user():
 def read_product():
     data_boicot = open("data-boicot.txt", "r")
     boicot = data_boicot.read()
+    print("-" * 20)
     print(boicot)
+    print("-" * 20)
     print(list_product_menu())
     
 def create_product():
@@ -349,44 +362,20 @@ def delete_product():
     else:
         print(f"Data untuk '{name}' tidak ada")
         
-# belum selesai
-# def filter_role_menu():
-#     while True:
-#         print("1. SuperAdmin")
-#         print("2.  Admin")
-#         print("3.  User")
-#         print("4.  return ")
 
-#         pilihan = input("Choose(1/2/3)")
-#         if pilihan ==   "1":
-#             print()
-#         elif pilihan == "2":
-#             print()
-#         elif pilihan == "3":
-#             print()
-#         elif pilihan  == "4":
-#             print(list_product_menu())
-#         else:
-#             print("Invalid choice. Please choose a valid option.")
- 
-# # def input_admin():
-    
-#     # belum selesai
-# def input_user():
-#     search_role = print("user").strip()
 
        
 def list_user_menu():
     while True:
         print("Choose one option:")
-        print("1. Search user: ")
-        print("2. filter by role: ")
+        print("1. Search user ")
+        print("2. filter by role ")
         print("3. Main menu")
         pilihan = input("Choose (1/2/3): ")
         if pilihan == "1":
             print(search_user())
         elif pilihan == "2":
-            print()
+            print(filter_user_by_role())
         elif pilihan == "3":
             print(superadmin_menu())
         else:
@@ -395,15 +384,12 @@ def list_user_menu():
 def list_product_menu():
     while True:
         print("Choose one option:")
-        print("1. Search product: ")
-        print("2. filter by : ")
-        print("3. Main menu")
+        print("1. Search product ")
+        print("2. Main menu")
         pilihan = input("Choose (1/2/3): ")
         if pilihan == "1":
             print(search_product())
         elif pilihan == "2":
-            print()
-        elif pilihan == "3":
             print(user_menu())
         else:
             print("Invalid Input, please try again")
@@ -426,10 +412,10 @@ def superadmin_menu():
     while True:
         print(f"Welcome {logged_user}!!")
         print()
-        print("1. See user list: ")
-        print("2. Create user: ")
-        print("3. edit user: ")
-        print("4. Delete user: ")
+        print("1. See user list ")
+        print("2. Create user ")
+        print("3. edit user ")
+        print("4. Delete user ")
         print("5. Logout")
         pilihan = input("Choose (1/2/3/4/5/6/7): ")
           
@@ -451,10 +437,10 @@ def admin_menu():
     while True:
         print(f"Welcome {logged_user}!!")
         print()
-        print("1. Create Product Boicot: ")
-        print("2. See list boicot: ")
-        print("3. edit product boicot: ")
-        print("4. Delete product boicot: ")
+        print("1. Create Product Boicot ")
+        print("2. See list boicot ")
+        print("3. edit product boicot ")
+        print("4. Delete product boicot ")
         print("5. Logout")
         pilihan = input("Choose (1/2/3/4/5/6): ")
         
@@ -476,8 +462,8 @@ def user_menu():
     while True:
         print(f"Welcome {logged_user}!!")
         print()
-        print("1. List boicot: ")
-        print("2. Update user profile: ")
+        print("1. List boicot ")
+        print("2. Update user profile ")
         print("3. Logout")
         pilihan = input()
         if pilihan == '1':

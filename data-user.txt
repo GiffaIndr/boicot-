@@ -9,3 +9,15 @@ Username: alok
  Role: admin
  Email: izin@gmail.com
  Password: vokasiipb
+
+ Name: dj alokasari
+Username: alokin
+ Role: admin
+ Email: izinkan@gmail.com
+ Password: vokasiipb
+
+ Name: Syahla aura
+Username: lala
+ Role: user
+ Email: user@gmail.com
+ Password: vokasiipb
