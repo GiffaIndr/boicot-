@@ -243,9 +243,6 @@ def delete_user():
          print(f"Data untuk '{name}' telah dihapus")
     else:
         print(f"Data untuk '{name}' tidak ada")
-        
-
-    
 
 def read_product():
     data_boicot = open("data-boicot.txt", "r")
@@ -318,8 +315,6 @@ def update_product():
         
         with open("data-product.txt", "w") as data_product:
             data_product.write("\n\n".join(updated_products))
-
-# def filter_product():
 
 def search_product():
      search_name = input("Search name: ").strip()
