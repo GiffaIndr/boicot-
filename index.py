@@ -313,7 +313,7 @@ def update_product():
         if not product_found:
             print(f"product with name '{search_product}' not found")
         
-        with open("data-product.txt", "w") as data_product:
+        with open("data-boicot.txt", "w") as data_product:
             data_product.write("\n\n".join(updated_products))
 
 def search_product():
