@@ -16,8 +16,20 @@ Username: alokin
  Email: izinkan@gmail.com
  Password: vokasiipb
 
- Name: Syahla aura
-Username: lala
+Name: RABit
+Username: bibit
  Role: user
  Email: user@gmail.com
- Password: vokasiipb
+ Password: rabittt
+
+Name: COBA COBA
+Username: FGGdfdf
+ Role: user
+ Email: dfdfsdf
+ Password: sdfsd
+
+Name: dfdsf
+Username: sdf
+ Role: user
+ Email: sdfsdf
+ Password: sfd

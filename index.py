@@ -1,10 +1,11 @@
 import sys
 
-def auth():
+def auth():   
     print("1. Login")
     print("2. Register")
     print("3. Out")
  
+#authentication
 def login():
     global logged_user
     email = input("Email: ")
@@ -35,7 +36,7 @@ def login():
                         break
         if not login_success:
             print("Username or password does not exist, please check again.")
-            
+           
 def register():
     name = input("Name: ")
     username = input("Username: ")
@@ -67,6 +68,7 @@ def register():
         print("Registration success please login!")
         auth_menu()
 
+#USER
 def read_user():
     data_user = open("data-user.txt", "r")
     user = data_user.read()
@@ -177,8 +179,7 @@ def update_profile():
             data_user.write("\n\n".join(updated_users))
     else:
         print("Data pengguna tidak ditemukan.")
-        
-        
+           
 def search_user():
     search_name = input("Search name: ").strip()
     with open("data-user.txt", "r") as data_user:
@@ -192,7 +193,9 @@ def search_user():
                 
                 if name.lower() == search_name.lower():
                     print("User found")
+                    print("-" * 20)
                     print(user)
+                    print("-" * 20)
                     user_found = True
                     break
         if not user_found:
@@ -218,6 +221,7 @@ def filter_user_by_role():
         if selected_role_users:
             print(f"\nUsers with role '{selected_role}':")
         for user in selected_role_users:
+            print("-" * 20)
             print(user)
             print("-" * 20)
         else:
@@ -244,6 +248,7 @@ def delete_user():
     else:
         print(f"Data untuk '{name}' tidak ada")
 
+#PRODUCT
 def read_product():
     data_boicot = open("data-boicot.txt", "r")
     boicot = data_boicot.read()
@@ -329,12 +334,13 @@ def search_product():
                 
                 if name.lower() == search_name.lower():
                     print("product found")
+                    print("-" * 20)
                     print(product)
+                    print("-" * 20)
                     product_found = True
                     break
         if not product_found:
             print(f"No product found with the name '{search_name}'")
-
 
 def delete_product():
     name = input("name: ")
@@ -357,9 +363,7 @@ def delete_product():
     else:
         print(f"Data untuk '{name}' tidak ada")
         
-
-
-       
+#MENU LIST       
 def list_user_menu():
     while True:
         print("Choose one option:")
@@ -400,6 +404,7 @@ def auth_menu():
         elif pilihan == '3':
             print("Thank you for using our app!!\nNever stop BOICOT!!!")
             print(sys.exit())
+            # break
         else:
             print("Invalid input, please try again.")
 
@@ -460,7 +465,7 @@ def user_menu():
         print("1. List boicot ")
         print("2. Update user profile ")
         print("3. Logout")
-        pilihan = input()
+        pilihan = input("Choose (1/2/3): ")
         if pilihan == '1':
             print(read_product())   
         elif pilihan == '2':
