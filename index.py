@@ -1,9 +1,15 @@
 import sys
+import cv2
+import face_recognition
+import os
+import numpy as np
 
 def auth():   
     print("1. Login")
     print("2. Register")
-    print("3. Out")
+    print("3. Login with face")
+    print("4. register with face")
+    print("5. Out")
  
 #authentication
 def login():
@@ -68,6 +74,144 @@ def register():
         print("Registration success please login!")
         auth_menu()
 
+def load_registered_faces():
+    registered_faces = []
+    user_data = []
+    if os.path.exists("data-user.txt"):
+        with open("data-user.txt", "r") as f:
+            lines = f.readlines()
+            encoding = None
+            name = None
+            role = None
+            for line in lines:
+                if line.startswith("Name:"):
+                    name = line.replace("Name: ", "").strip()
+                elif line.startswith("Role:"):
+                    role = line.replace("Role: ", "").strip()
+                elif line.startswith("Face Encoding:"):
+                    encoding_str = line.replace("Face Encoding: ", "").strip()
+                    encoding = np.fromstring(encoding_str[1:-1], sep=",")
+                    if encoding is not None:
+                        registered_faces.append((name, role, encoding))  
+    return registered_faces
+
+
+def login_face():
+    global logged_user  
+    registered_faces = load_registered_faces()
+
+    if not registered_faces:
+        print("No registered faces found. Please register a face first.")
+        return
+
+    video_capture = cv2.VideoCapture(0)
+
+    if not video_capture.isOpened():
+        print("Error: Could not open webcam.")
+        return
+
+    print("Please look at the camera to login...")
+
+    while True:
+        ret, frame = video_capture.read()
+        if not ret:
+            print("Failed to grab frame")
+            break
+
+        cv2.imshow("Video - Login", frame)
+
+        face_locations = face_recognition.face_locations(frame)
+
+        if face_locations:
+            cv2.putText(frame, "Wajah terdeteksi, sesuaikan posisi!", (50, 50),
+                        cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+
+            if len(face_locations) == 1:  
+                face_encodings = face_recognition.face_encodings(frame, face_locations)
+                if face_encodings:
+                    encoding = face_encodings[0]
+                    print("Comparing face...")
+                    matches = face_recognition.compare_faces([face[2] for face in registered_faces], encoding)
+
+                    if True in matches:
+                        match_index = matches.index(True)
+                        logged_user = registered_faces[match_index][0]  
+                        user_role = registered_faces[match_index][1]  
+                        cv2.destroyAllWindows()
+                        print(f"Face verified! Welcome, {logged_user}.")
+                        if user_role == "user":
+                            print(user_menu())
+                        break
+                    else:
+                        print("Face not recognized. Please try again.")
+                        break
+            else:
+                print("Please position your face correctly in the frame.")
+        
+       
+        if len(face_locations) == 0:
+            print("No faces detected. Please try again.")
+        
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+
+    video_capture.release()
+            
+def register_face():
+    video_capture = cv2.VideoCapture(0)
+    
+    if not video_capture.isOpened():
+        print("Error: Could not open webcam.")
+        return
+    
+    print("Please look at the camera to register...")
+    
+    while True:
+        ret, frame = video_capture.read()
+        if not ret:
+            print("Failed to grab frame")
+            break
+        
+        face_locations = face_recognition.face_locations(frame)
+        
+        if face_locations:
+            face_encodings = face_recognition.face_encodings(frame, face_locations)
+            
+            if face_encodings:
+                encoding = face_encodings[0]  
+                print("Face encoding registered!")
+                cv2.destroyAllWindows()
+                with open("data-user.txt", "a") as f:
+                    name = input("Enter your name: ")
+                    username = input("Enter your username: ")
+                    role = "user"
+                    email = input("Enter your email: ")
+                    password = input("Enter your password: ")
+
+                    f.write(f"\nName: {name}\n")
+                    f.write(f"Username: {username}\n")
+                    f.write(f"Role: {role}\n")
+                    f.write(f"Email: {email}\n")
+                    f.write(f"Password: {password}\n")
+                    f.write(f"Face Encoding: {encoding.tolist()}\n\n")      
+                print("Registration complete!")
+                break  # Exit the loop once registration is done
+            else:
+                print("No face encoding found.")
+        else:
+            print("No faces detected. Please try again.")
+        
+        # Display the current frame (optional, to see the webcam feed)
+        cv2.imshow("Video", frame)
+        
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    
+   
+    video_capture.release()
+
+
+   
 #USER
 def read_user():
     data_user = open("data-user.txt", "r")
@@ -83,8 +227,9 @@ def create_user():
     email = input("Email: ")
     password = input("Password: ")
     role = input("Role (superadmin/admin/user): ")
+    face_encode = ""
     
-    if not name or not username or not email or not password:
+    if not name or not username or not email or not password or not role:
         print("Please fill all fields!")
     else:
         with open("data-user.txt", "r") as data_user:
@@ -102,7 +247,7 @@ def create_user():
                         print("Email already registered")
                         return
                     
-        data = "Name: {}\nUsername: {}\n Role: {}\n Email: {}\n Password: {}\n\n".format(name, username, role, email, password)
+        data = "Name: {}\nUsername: {}\n Role: {}\n Email: {}\n Password: {}\n Face Encoding: {}\n\n".format(name, username, role, email, password, face_encode)
         with open("data-user.txt", "a") as data_user:
             data_user.write(data)
         print("Success added user!")
@@ -128,8 +273,9 @@ def update_user():
                 new_role = user_data[2].split(": ")[1].strip()  # Role tetap sama
                 new_email = input(f"Email ({user_data[3].split(': ')[1].strip()}): ") or user_data[3].split(": ")[1].strip()
                 new_password = input(f"Password ({user_data[4].split(': ')[1].strip()}): ") or user_data[4].split(": ")[1].strip()
+                new_encode = user_data[5].split(": ")[1].strip()
                 
-                updated_user = f"Name: {new_name}\nUsername: {new_username}\n Role: {new_role}\n Email: {new_email}\n Password: {new_password}"
+                updated_user = f"Name: {new_name}\nUsername: {new_username}\n Role: {new_role}\n Email: {new_email}\n Password: {new_password}\n Face Encoding: {new_encode}"
                 updated_users.append(updated_user)
                 user_found = True
                 print("Successfully update user!")
@@ -168,7 +314,8 @@ def update_profile():
                 new_role = user_data[2].split(": ")[1].strip()  
                 new_email = input(f"Email ({user_data[3].split(': ')[1].strip()}): ") or user_data[3].split(": ")[1].strip()
                 new_password = input(f"Password ({user_data[4].split(': ')[1].strip()}): ") or user_data[4].split(": ")[1].strip()
-                updated_user = f"Name: {new_name}\nUsername: {new_username}\n Role: {new_role}\n Email: {new_email}\n Password: {new_password}"
+                new_encode = user_data[5].split(": ")[1].strip()
+                updated_user = f"Name: {new_name}\nUsername: {new_username}\n Role: {new_role}\n Email: {new_email}\n Password: {new_password}\n Face Encoding: {new_encode}"
                 updated_users.append(updated_user)
                 user_found = True
                 print("Data Anda berhasil diperbarui!")
@@ -396,12 +543,16 @@ def list_product_menu():
 def auth_menu(): 
     while True:
         auth()
-        pilihan = input("Choose (1/2/3): ")
+        pilihan = input("Choose (1/2/3/4/5): ")
         if pilihan == "1":
             print(login())
         elif pilihan == "2":
             print(register())
-        elif pilihan == '3':
+        elif pilihan == "3":
+            print(login_face())
+        elif pilihan == "4":
+            print(register_face())
+        elif pilihan == '5':
             print("Thank you for using our app!!\nNever stop BOICOT!!!")
             print(sys.exit())
             # break
@@ -466,15 +617,17 @@ def user_menu():
         print("2. Update user profile ")
         print("3. Logout")
         pilihan = input("Choose (1/2/3): ")
+        
         if pilihan == '1':
             print(read_product())   
         elif pilihan == '2':
             print(update_profile())
         elif pilihan == '3':
             print("Logging out...")
-            auth_menu()
+            break  # Keluar dari user_menu dan kembali ke menu sebelumnya
         else:
             print("Invalid input, please try again.")
+
 
             
 auth_menu()

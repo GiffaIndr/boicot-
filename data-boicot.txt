@@ -1,23 +1,19 @@
-Name: KFC
-Proof: Owned by **Yum! Brands**.\n\n**Yum! Brands** is an investor in Israeli start ups.
-Proofurl: https://www.calcalistech.com/ctech/articles/0,7340,L-3901254,00.html
+Product: KFC
+Proof: Owned by Yum! Brands. Yum! Brands is an investor in Israeli start ups.
+ Proofurl: https://www.calcalistech.com/ctech/articles/0,7340,L-3901254,00.html
 
 Name: Justin Bieber
-Proof: Shared **multiple** stories in **support** of Israel and deleted after getting backlash.
+Proof: Shared multiple stories in support of Israel and deleted after getting backlash.
 Proofurl: https://www.independent.co.uk/arts-entertainment/music/news/justin-bieber-israel-palestine-gaza-instagram-b2428156.html
 
 Name: Youtube
-Proof: **Youtube** is owned by **Google**\n\nAmazon and Google are working together on **Project Nimbus**. \n**Project Nimbus** is a $1.2bn contract to provide cloud services for the **Israeli military and government**. This technology allows for further surveillance of and **unlawful data collection** on Palestinians, and facilitates expansion of Israel’s **illegal settlements** on Palestinian land.
+Proof: Youtube is owned by Google Amazon and Google are working together on Project Nimbus. Project Nimbus is a $1.2bn contract to provide cloud services for the Israeli military and government. This technology allows for further surveillance of and unlawful data collection on Palestinians, and facilitates expansion of Israel’s illegal settlements on Palestinian land.
 Proofurl: https://www.theguardian.com/commentisfree/2021/oct/12/google-amazon-workers-condemn-project-nimbus-israeli-military-contract
 
 Name: Sunsilk
-Proof: Owned by **Unilever**.\n\n**Sunsilk** and Ben & Jerry's are owned by **Unilever**. When Ben & Jerry's decided to stop selling its products in Israel, **Unilever** sold off the Israeli distribution rights to Avi Zinger to circumvent their decision and to force Ben & Jerry's brand name to continue selling in Israel.
+Proof: Owned by Unilever. Sunsilk and Ben & Jerry's are owned by Unilever. When Ben & Jerry's decided to stop selling its products in Israel, Unilever sold off the Israeli distribution rights to Avi Zinger to circumvent their decision and to force Ben & Jerry's brand name to continue selling in Israel.
 Proofurl: https://www.unilever.com/news/press-and-media/press-releases/2022/unilever-reaches-new-business-arrangement-for-ben-jerrys-in-israel/
 
 Name: Aqua
-Proof: Owned by **Danone**.\n\n**Danone** leads an investment of about NIS 12.5 million in Israel's Wilk, alongside Israeli milk firm Tara.
+Proof: Owned by Danone. Danone leads an investment of about NIS 12.5 million in Israel's Wilk, alongside Israeli milk firm Tara.
 Proofurl: https://www.jpost.com/business-and-innovation/banking-and-finance/article-743853
-
-
-
-
