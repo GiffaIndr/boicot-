@@ -144,6 +144,7 @@ def login_face():
                         break
                     else:
                         print("Face not recognized. Please try again.")
+                        cv2.destroyAllWindows()
                         break
             else:
                 print("Please position your face correctly in the frame.")
@@ -198,6 +199,7 @@ def register_face():
                 break  # Exit the loop once registration is done
             else:
                 print("No face encoding found.")
+                cv2.destroyAllWindows()
         else:
             print("No faces detected. Please try again.")
         
@@ -624,7 +626,8 @@ def user_menu():
             print(update_profile())
         elif pilihan == '3':
             print("Logging out...")
-            break  # Keluar dari user_menu dan kembali ke menu sebelumnya
+            print(auth_menu())
+            break  
         else:
             print("Invalid input, please try again.")
 
